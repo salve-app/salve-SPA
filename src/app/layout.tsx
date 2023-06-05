@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ServerThemeProvider attribute="class">
+    <ServerThemeProvider>
       <html lang="en">
         <body className={`${openSans.variable} ${oswald.variable} font-sans`}>
           <Providers>{children}</Providers>
