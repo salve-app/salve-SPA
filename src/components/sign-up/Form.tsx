@@ -1,10 +1,22 @@
+'use client'
+
+import { FormEventHandler } from 'react'
 import Button from '../Button'
 import { NormalInput as Input } from '../Input'
 import ProgressiveDots from './ProgressiveDots'
+import { useRouter } from 'next/navigation'
 
 export default function Form() {
+  const router = useRouter()
+
+  async function handleSubmit(e: any) {
+    e.preventDefault()
+
+    router.push(`/sign-up/profile/${'12312312312'}`)
+  }
+
   return (
-    <form className="flex w-full flex-col gap-5">
+    <form onSubmit={handleSubmit} className="flex w-full flex-col gap-5">
       <Input
         placeholder={`Digite seu nome de usuário`}
         name={'username'}
