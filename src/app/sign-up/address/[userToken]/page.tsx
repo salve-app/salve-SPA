@@ -1,4 +1,4 @@
-import Form from "@/components/sign-up/profile/Form"
+import Form from "@/components/sign-up/address/Form"
 
 export default function ProfileSignUp({ params }: UserTokenParams) {
   return (
@@ -9,7 +9,7 @@ export default function ProfileSignUp({ params }: UserTokenParams) {
           Inscreva-se grátis e comece uma nova experiência
         </p>
         <p className="mb-8 text-center text-3xl font-bold text-emphasis">
-          Dados de perfil
+          Dados de endereço
         </p>
         <Form/>
       </div>
