@@ -5,8 +5,8 @@ export default function Form() {
   return (
     <form className="flex w-[min(100%,_440px)] flex-col items-center gap-6">
       <div className="w-full">
-        <Input placeholder={`E-mail ou nome de usuário`} name={'email'} />
-        <Input placeholder={`Senha`} type={'password'} name={'senha'} />
+        <Input placeholder={`E-mail ou nome de usuário`} name={'email'} required/>
+        <Input placeholder={`Senha`} type={'password'} name={'senha'} required/>
         <p className=" flex items-center gap-1 ">
           <input
             type="checkbox"
