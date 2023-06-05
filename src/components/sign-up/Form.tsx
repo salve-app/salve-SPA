@@ -9,10 +9,11 @@ import { useRouter } from 'next/navigation'
 export default function Form() {
   const router = useRouter()
 
+
   async function handleSubmit(e: any) {
     e.preventDefault()
 
-    router.push(`/sign-up/profile/${'12312312312'}`)
+    router.push(`/sign-in`)
   }
 
   return (
@@ -44,8 +45,8 @@ export default function Form() {
         type={'password'}
         required
       />
-      <ProgressiveDots stage={1} />
-      <Button>Continuar a inscrição</Button>
+      {/* <ProgressiveDots stage={1} /> */}
+      <Button>Inscrever-se</Button>
     </form>
   )
 }
