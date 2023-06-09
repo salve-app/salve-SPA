@@ -11,13 +11,18 @@ export default function SignIn() {
           <span>tudo o que você precisa é de um Salve!</span>
         </p>
       </div>
-      <div className="flex flex-col items-center justify-center bg-main px-6">
-        <img src="images/miniLogo.svg" alt="Salve!" className="mb-10" />
-        <Form />
-        <Link href={'/sign-up'} className="group mt-3 font-light text-emphasis">
-          Primeira vez?{' '}
-          <span className="group-hover:font-bold">Registre-se agora!</span>
-        </Link>
+      <div className="flex flex-col items-center justify-center bg-main px-6 ">
+        <div className="flex w-[min(100%,_440px)] flex-col items-center">
+          <img src="images/miniLogo.svg" alt="Salve!" className="mb-10" />
+          <Form />
+          <Link
+            href={'/sign-up'}
+            className="group mt-3 font-light text-emphasis"
+          >
+            Primeira vez?{' '}
+            <span className="group-hover:font-bold">Registre-se agora!</span>
+          </Link>
+        </div>
       </div>
     </main>
   )

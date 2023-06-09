@@ -1,6 +1,6 @@
-import Form from "@/components/sign-up/profile/Form"
+import Form from '@/components/sign-up/address/Form'
 
-export default function ProfileSignUp({ params }: UserTokenParams) {
+export default function AddressSignUp() {
   return (
     <main className="flex min-h-screen justify-center bg-main px-6 pb-16 pt-20">
       <div className="flex w-[min(100%,_440px)] flex-col items-center">
@@ -9,16 +9,10 @@ export default function ProfileSignUp({ params }: UserTokenParams) {
           Inscreva-se grátis e comece uma nova experiência
         </p>
         <p className="mb-8 text-center text-3xl font-bold text-emphasis">
-          Dados de perfil
+          Dados de endereço
         </p>
-        <Form/>
+        <Form />
       </div>
     </main>
   )
-}
-
-interface UserTokenParams {
-  params: {
-    userToken: string
-  }
 }

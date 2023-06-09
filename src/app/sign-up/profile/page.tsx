@@ -1,6 +1,14 @@
-import Form from "@/components/sign-up/address/Form"
+import Form from '@/components/sign-up/profile/Form'
+import useToken from '@/lib/hooks/useToken'
+import useUser from '@/lib/hooks/useUser'
+import { redirect } from 'next/navigation'
 
-export default function ProfileSignUp({ params }: UserTokenParams) {
+export default function ProfileSignUp() {
+  const user = useUser()
+  const token = useToken()
+
+  if (!user || !token) redirect('/sign-in')
+
   return (
     <main className="flex min-h-screen justify-center bg-main px-6 pb-16 pt-20">
       <div className="flex w-[min(100%,_440px)] flex-col items-center">
@@ -9,16 +17,10 @@ export default function ProfileSignUp({ params }: UserTokenParams) {
           Inscreva-se grátis e comece uma nova experiência
         </p>
         <p className="mb-8 text-center text-3xl font-bold text-emphasis">
-          Dados de endereço
+          Dados de perfil
         </p>
-        <Form/>
+        <Form token={token} />
       </div>
     </main>
   )
-}
-
-interface UserTokenParams {
-  params: {
-    userToken: string
-  }
 }

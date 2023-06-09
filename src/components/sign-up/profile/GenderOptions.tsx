@@ -1,4 +1,6 @@
-export default function GenderOptions() {
+import { InputHTMLAttributes } from 'react'
+
+export default function GenderOptions({ gender, onChange }: RadioProps) {
   return (
     <div className="flex flex-col gap-2">
       <label className="text-sm font-bold text-emphasis">
@@ -12,10 +14,13 @@ export default function GenderOptions() {
             value={'M'}
             type={'radio'}
             className="cursor-pointer accent-emphasis"
+            checked={gender === 'M'}
+            onChange={onChange}
             required
           />
           <label htmlFor={'M'} className="text-sm font-bold text-emphasis">
-            {' '}Masculino
+            {' '}
+            Masculino
           </label>
         </div>
         <div>
@@ -25,10 +30,13 @@ export default function GenderOptions() {
             value={'F'}
             type={'radio'}
             className="cursor-pointer accent-emphasis"
+            checked={gender === 'F'}
+            onChange={onChange}
             required
           />
           <label htmlFor={'F'} className="text-sm font-bold text-emphasis">
-            {' '}Feminino
+            {' '}
+            Feminino
           </label>
         </div>
         <div>
@@ -38,10 +46,13 @@ export default function GenderOptions() {
             value={'NB'}
             type={'radio'}
             className="cursor-pointer accent-emphasis"
+            checked={gender === 'NB'}
+            onChange={onChange}
             required
           />
           <label htmlFor={'NB'} className="text-sm font-bold text-emphasis">
-            {' '}Não-binário
+            {' '}
+            Não-binário
           </label>
         </div>
         <div>
@@ -51,10 +62,13 @@ export default function GenderOptions() {
             value={'OT'}
             type={'radio'}
             className="cursor-pointer accent-emphasis"
+            checked={gender === 'OT'}
+            onChange={onChange}
             required
           />
           <label htmlFor={'OT'} className="text-sm font-bold text-emphasis">
-            {' '}Outros
+            {' '}
+            Outros
           </label>
         </div>
         <div>
@@ -64,13 +78,20 @@ export default function GenderOptions() {
             value={'NI'}
             type={'radio'}
             className="cursor-pointer accent-emphasis"
+            checked={gender === 'NI'}
+            onChange={onChange}
             required
           />
           <label htmlFor={'NI'} className="text-sm font-bold text-emphasis">
-            {' '}Prefiro não dizer
+            {' '}
+            Prefiro não dizer
           </label>
         </div>
       </div>
     </div>
   )
+}
+
+interface RadioProps extends InputHTMLAttributes<HTMLInputElement> {
+  gender: string
 }

@@ -28,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <ServerThemeProvider>
-      <html lang="en">
+      <html lang="pt">
         <body className={`${openSans.variable} ${oswald.variable} font-sans`}>
           <Providers>{children}</Providers>
         </body>
