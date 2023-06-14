@@ -6,6 +6,9 @@ import { NormalInput as Input } from '../Input'
 import ProgressiveDots from './ProgressiveDots'
 import { useRouter } from 'next/navigation'
 import { createUser } from '@/lib/services/userApi'
+import formValidation from '@/lib/utils/validations/formValidation'
+import { toast } from 'react-toastify'
+import masks from '@/lib/utils/masks'
 
 export default function Form() {
   const router = useRouter()
@@ -17,29 +20,42 @@ export default function Form() {
     confirmedPassword: '',
   })
 
+  const [formErrors, setFormErrors] = useState({})
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
 
-    if (formData.password !== formData.confirmedPassword)
-      return alert('Senhas não compatíveis')
-
-    const { username, email, password } = formData
-
     try {
-      const { token } = await createUser({ username, email, password })
+      const validatedData = formValidation['user'](formData)
+
+      const { token } = await createUser(validatedData)
 
       const queryString = new URLSearchParams({
         token,
         redirect: '/sign-up/profile',
       })
 
+      toast.success('Usuário cadastrado com sucesso. Falta pouco! (1/3)')
+
       router.push(`/auth/cookies/token?${queryString}`)
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
+      toast.error('Alguns dados estão incorretos')
+      setFormErrors(error)
     }
   }
 
-  function handleInputOnChange(e: ChangeEvent<HTMLInputElement>) {
+  function handleInputOnChange(
+    e: ChangeEvent<HTMLInputElement>,
+    key: string | undefined = undefined,
+  ) {
+    setFormErrors({ ...formErrors, [e.target.name]: false })
+
+    if (key)
+      return setFormData({
+        ...formData,
+        [e.target.name]: masks[key](e.target.value),
+      })
+
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
@@ -49,8 +65,9 @@ export default function Form() {
         placeholder={`Digite seu nome de usuário`}
         name={'username'}
         label={'Como gostaria de ser chamado?'}
-        onChange={(e) => handleInputOnChange(e)}
+        onChange={(e) => handleInputOnChange(e, 'username')}
         value={formData.username}
+        error={formErrors}
         required
       />
       <Input
@@ -60,6 +77,7 @@ export default function Form() {
         type={'email'}
         onChange={(e) => handleInputOnChange(e)}
         value={formData.email}
+        error={formErrors}
         required
       />
       <Input
@@ -69,6 +87,7 @@ export default function Form() {
         type={'password'}
         onChange={(e) => handleInputOnChange(e)}
         value={formData.password}
+        error={formErrors}
         required
       />
       <Input
@@ -78,6 +97,7 @@ export default function Form() {
         type={'password'}
         onChange={(e) => handleInputOnChange(e)}
         value={formData.confirmedPassword}
+        error={formErrors}
         required
       />
       <ProgressiveDots stage={1} />

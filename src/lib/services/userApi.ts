@@ -14,6 +14,14 @@ export async function createProfile(data: ProfileData, token: string) {
   return response.data
 }
 
+export async function createAddress(data: AddressData, token: string) {
+  const response = await api.post(
+    '/users/sign-up/address',
+    data,
+    authorization(token),
+  )
+  return response.data
+}
 interface UserData {
   username: string
   email: string
@@ -26,4 +34,15 @@ interface ProfileData {
   birthday: Date
   phoneNumber: string
   gender: string
+}
+
+interface AddressData {
+  cep: string
+  neighborhood: string
+  street: string
+  number: string
+  complement: string
+  city: string
+  state: string
+  nickname: string
 }

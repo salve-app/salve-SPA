@@ -11,7 +11,18 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider defaultTheme="watermelon">
       {children}
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={1500}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </ThemeProvider>
   )
 }

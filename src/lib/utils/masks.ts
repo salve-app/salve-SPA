@@ -29,8 +29,32 @@ function normalizePhoneNumber(phoneNumber: string) {
     .replace(/(-\d{4})(\d+?)/, '$1')
 }
 
+function normalizeCep(cep: string) {
+  if (!cep) return ''
+
+  return cep
+    .replace(/[\D]/g, '')
+    .replace(/(\d{5})(\d)/, '$1-$2')
+    .replace(/(-\d{3})(\d+?)/, '$1')
+}
+
+function normalizeNumber(number: string) {
+  if (!number) return ''
+
+  return number.replace(/[\D]/g, '')
+}
+
+function normalizeUsername(username: string) {
+  if (!username) return ''
+
+  return username.replace(/[^A-Za-z]/g, '')
+}
+
 export default {
   cpf: normalizeCpf,
   date: normalizeDate,
   phoneNumber: normalizePhoneNumber,
+  cep: normalizeCep,
+  number: normalizeNumber,
+  username: normalizeUsername
 }

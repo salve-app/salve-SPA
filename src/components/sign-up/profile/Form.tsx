@@ -36,7 +36,7 @@ export default function Form({ token }: { token: string }) {
         redirect: '/sign-up/address',
       })
 
-      toast.success('Perfil cadastrado com sucesso. Falta pouco!')
+      toast.success('Perfil cadastrado com sucesso. Falta pouco! (2/3)')
 
       router.push(`/auth/cookies/token?${queryString}`)
     } catch (error: any) {

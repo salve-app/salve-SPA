@@ -1,11 +1,15 @@
 import { InputHTMLAttributes } from 'react'
 import Error from './Error'
-import errorsMessages from '@/lib/utils/constants/errorsMessages'
+import errorsMessages, {
+  ErrorsCategories,
+} from '@/lib/utils/constants/errorsMessages'
 
 export function InterativeInput({
   placeholder,
   name,
   type = 'text',
+  value,
+  onChange,
   required,
 }: InputHTMLAttributes<HTMLInputElement>) {
   return (
@@ -15,6 +19,8 @@ export function InterativeInput({
         placeholder={placeholder}
         type={type}
         name={name}
+        value={value}
+        onChange={onChange}
         className="peer h-12 w-full rounded pl-5 pt-3 placeholder-transparent placeholder-shown:border-none focus:outline-none"
         required={required}
       />
@@ -57,7 +63,9 @@ export function NormalInput({
         value={value}
         required={required}
       />
-      { error?.[name] && <Error message={errorsMessages[error.category][name]} />}
+      {error?.[name] && (
+        <Error message={errorsMessages[error.category][name]} />
+      )}
     </div>
   )
 }
@@ -65,4 +73,5 @@ export function NormalInput({
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
   name: string
+  error?: ErrorsCategories
 }
