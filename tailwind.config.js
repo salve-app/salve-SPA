@@ -36,6 +36,10 @@ module.exports = {
         emphasis: 'var(--emphasis)',
         'dark-main': 'var(--dark-main)',
       },
+      boxShadow: {
+        'left-curve': '-20px 20px 0px var(--alternative)',
+        'right-curve': '20px 20px 0px var(--alternative)',
+      },
     },
   },
   plugins: [],
