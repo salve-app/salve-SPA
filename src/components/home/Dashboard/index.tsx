@@ -9,5 +9,5 @@ export default function Dashboard() {
 
   const handleTabClick = () => setActive(!active)
 
-  return <div className="h-[736px] w-full flex flex-col"> <MenuTabs active={active} handleTabClick={handleTabClick} /> <Painel/></div>
+  return <div className="h-[736px] w-full flex flex-col"> <MenuTabs active={active} handleTabClick={handleTabClick} /> <Painel myTroubles={active}/></div>
 }

@@ -7,7 +7,7 @@ export default function Menu({
 }) {
   return (
     <div
-      className={`${active ? 'z-30' : 'z-[-1]'} fixed left-0 top-0 flex w-full`}
+      className={`${active ? 'z-10' : '-z-10'} fixed left-0 top-0 flex w-full`}
     >
       <nav
         className={`${

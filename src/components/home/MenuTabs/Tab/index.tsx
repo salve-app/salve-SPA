@@ -6,14 +6,14 @@ export default function Tab({
   handleTabClick,
 }: PropsWithChildren<TabParams>) {
   return (
-    <div className="flex items-end">
+    <div className="flex w-[min(44%,_700px)] items-end">
       <div
         className={`h-10 w-10 rounded-full bg-main ${
           active && 'shadow-right-curve'
         }`}
       ></div>
       <div
-        className={`flex h-14 w-[440px] items-center justify-center rounded-t-[40px] text-2xl font-bold ${
+        className={`flex h-14 w-full items-center justify-center rounded-t-[40px] text-2xl font-bold ${
           active ? isSelected() : isNotSelected()
         }`}
         onClick={!active ? handleTabClick : undefined}
