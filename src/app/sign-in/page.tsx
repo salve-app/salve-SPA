@@ -6,7 +6,7 @@ import Link from 'next/link'
 export default function SignIn() {
   const user = useUser()
 
-  // if (user) redirect('/')
+  if (user) redirect('/')
 
   return (
     <main className="grid min-h-screen grid-cols-[minmax(600px,_2fr)_minmax(300px,_1fr)] lg:grid-cols-1">

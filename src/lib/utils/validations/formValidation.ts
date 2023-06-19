@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-import { AddressForm, ProfileForm, UserForm } from '../protocols/inputs'
+import { AddressForm, ProfileForm, UserForm, SaveForm } from '../protocols/inputs'
 import {
   checkErrorsAddressForm,
   checkErrorsProfileForm,
@@ -44,8 +44,18 @@ function validateAddressForm(address: AddressForm) {
   return address
 }
 
+function validateSaveForm(save: SaveForm, currentCoins: number) {
+
+  if(save.cost > currentCoins) throw new Error('Saldo insuficiente!')
+
+  if(!save.cost) throw new Error('Selecione o nível do perrengue!')
+
+  return save;
+}
+
 export default {
   profile: validateProfileForm,
   user: validateUserForm,
   address: validateAddressForm,
+  save: validateSaveForm
 }

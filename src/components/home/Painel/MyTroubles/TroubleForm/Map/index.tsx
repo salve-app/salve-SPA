@@ -1,26 +1,24 @@
+import { LocationCoordinates } from '@/lib/utils/protocols/geolocation'
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api'
 import { useEffect, useMemo, useState } from 'react'
 
-export default function Map() {
-  const [coords, setCoords] = useState({
-    name: 'Current position',
-    position: {
-      lat: 24.914161699999998,
-      lng: 67.082216,
-    },
+export default function Map({ handleMapAddressChange, disabled }: MapProps) {
+  const [coords, setCoords] = useState<LocationCoordinates>({
+    position: { lat: 0, lng: 0 },
   })
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
-      (location) => {
+      async (location) => {
         const currentCoords = {
-          ...coords,
           position: {
             lat: location.coords.latitude,
             lng: location.coords.longitude,
           },
         }
         setCoords(currentCoords)
+
+        handleMapAddressChange(currentCoords)
       },
       (e) => console.log(e),
       {
@@ -29,14 +27,17 @@ export default function Map() {
     )
   }, [])
 
-  const onMarkerDragEnd = (coord) => {
-    console.log(coord)
-    const { latLng } = coord
-    const lat = latLng.lat()
-    const lng = latLng.lng()
+  const onMarkerDragEnd = async (e: google.maps.MapMouseEvent) => {
+    const { latLng } = e
+    const currentLocation = latLng
+      ? { position: { lat: latLng.lat(), lng: latLng.lng() } }
+      : coords
 
-    setCoords({ ...coords, position: { lat, lng } })
+    setCoords(currentLocation)
+
+    handleMapAddressChange(currentLocation)
   }
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY || '',
   })
@@ -44,20 +45,29 @@ export default function Map() {
   if (!isLoaded) return <div>Loading...</div>
 
   return (
-    <GoogleMap
-      zoom={15}
-      center={coords.position}
-      mapContainerClassName="w-full h-[400px] rounded-lg"
-    >
-      <Marker
-        position={coords.position}
-        title={'Arraste para o local correto, caso precise.'}
-        icon={'/images/map-pin.png'}
-        onPositionChanged={(t, map, coord) => {
-          onMarkerDragEnd(coord)
-        }}
-        draggable
-      />
-    </GoogleMap>
+    <div className="relative">
+      <GoogleMap
+        zoom={16}
+        center={coords.position}
+        mapContainerClassName="w-full h-80 rounded-lg"
+      >
+        <Marker
+          position={coords.position}
+          title={'Arraste para o local correto, caso precise.'}
+          icon={'/images/map-pin.png'}
+          onDragEnd={(e) => onMarkerDragEnd(e)}
+          draggable
+        />
+      </GoogleMap>
+      <div
+        className={`absolute left-0 top-0 h-80 w-full rounded-lg bg-zinc-600 opacity-40 ${
+          disabled ? '' : 'hidden'
+        }`}
+      ></div>
+    </div>
   )
+}
+interface MapProps {
+  handleMapAddressChange: (currentLocation: LocationCoordinates) => void
+  disabled: boolean
 }

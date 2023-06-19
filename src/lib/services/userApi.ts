@@ -41,8 +41,8 @@ interface AddressData {
   neighborhood: string
   street: string
   number: string
-  complement: string
+  complement?: string
   city: string
   state: string
-  nickname: string
+  nickname?: string
 }

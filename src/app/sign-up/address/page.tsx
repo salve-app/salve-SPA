@@ -1,13 +1,15 @@
 import Form from '@/components/sign-up/address/Form'
-import useToken from '@/lib/hooks/useToken'
 import useUser from '@/lib/hooks/useUser'
 import { redirect } from 'next/navigation'
 
 export default function AddressSignUp() {
   const user = useUser()
-  const token = useToken()
 
-  if (!user || !token) redirect('/sign-in')
+  if (!user) redirect('/sign-in')
+
+  if (user.hasAddress) redirect('/')
+
+  if (!user.hasProfile) redirect('/sign-up/profile')
 
   return (
     <main className="flex min-h-screen justify-center bg-main px-6 pb-16 pt-20">
@@ -19,7 +21,7 @@ export default function AddressSignUp() {
         <p className="mb-8 text-center text-3xl font-bold text-emphasis">
           Dados de endereço
         </p>
-        <Form token={token} />
+        <Form token={user.token} />
       </div>
     </main>
   )

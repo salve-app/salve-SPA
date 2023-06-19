@@ -1,7 +1,13 @@
 import Form from '@/components/sign-up/Form'
+import useUser from '@/lib/hooks/useUser'
 import Link from 'next/link'
+import { redirect } from 'next/navigation';
 
 export default function SignUp() {
+  const user = useUser();
+
+  if (user) redirect('/')
+
   return (
     <main className="flex min-h-screen justify-center bg-main px-6 pb-16 pt-20">
       <div className="flex w-[min(100%,_440px)] flex-col items-center">

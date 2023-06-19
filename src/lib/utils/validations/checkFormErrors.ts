@@ -12,7 +12,12 @@ import {
   numericMatch,
   cepMatch,
 } from '../constants/regex'
-import { AddressForm, ProfileForm, UserForm } from '../protocols/inputs'
+import {
+  AddressForm,
+  ProfileForm,
+  SaveForm,
+  UserForm,
+} from '../protocols/inputs'
 
 dayjs.extend(customParseFormat)
 

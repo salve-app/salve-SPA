@@ -5,9 +5,12 @@ import { redirect } from 'next/navigation'
 
 export default function ProfileSignUp() {
   const user = useUser()
-  const token = useToken()
 
-  if (!user || !token) redirect('/sign-in')
+  if (!user) redirect('/sign-in')
+
+  if (user.hasAddress) redirect('/')
+
+  if (user.hasProfile) redirect('/sign-up/address')
 
   return (
     <main className="flex min-h-screen justify-center bg-main px-6 pb-16 pt-20">
@@ -19,7 +22,7 @@ export default function ProfileSignUp() {
         <p className="mb-8 text-center text-3xl font-bold text-emphasis">
           Dados de perfil
         </p>
-        <Form token={token} />
+        <Form token={user.token} />
       </div>
     </main>
   )

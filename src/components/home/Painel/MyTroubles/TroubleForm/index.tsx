@@ -1,4 +1,3 @@
-import { useRouter } from 'next/navigation'
 import Button from '@/components/Button'
 import { NormalInput as Input } from '@/components/Input'
 import { ChangeEvent, FormEvent, useState } from 'react'
@@ -6,47 +5,92 @@ import { toast } from 'react-toastify'
 import { BsCoin } from 'react-icons/bs'
 import Select from './Select'
 import Map from './Map'
+import { AddressForm, SaveForm } from '@/lib/utils/protocols/inputs'
+import masks from '@/lib/utils/masks'
+import getAddressByCoordinates from '@/lib/utils/geolocation/getAddressByCoordinates'
+import { LocationCoordinates } from '@/lib/utils/protocols/geolocation'
+import { getCookie } from 'cookies-next'
+import decode from 'jwt-decode'
+import { UserJwtPayload } from '@/lib/utils/protocols/resources'
+import formValidation from '@/lib/utils/validations/formValidation'
+import { createSave } from '@/lib/services/saveApi'
 
 export default function TroubleForm({
   closeModalForm,
 }: {
   closeModalForm: () => void
 }) {
-  const router = useRouter()
+  const token = getCookie('token')?.toString()
 
-  const [formData, setFormData] = useState({
+  const user = decode(token) as UserJwtPayload
+
+  const [formData, setFormData] = useState<SaveForm>({
     description: '',
     categoryId: 0,
     cost: 0,
+    address: {
+      number: '',
+      street: '',
+      neighborhood: '',
+      city: '',
+      state: '',
+      complement: '',
+      cep: '',
+    },
   })
+
   const [showLocationMap, setShowLocationMap] = useState(false)
+
+  const [markerIsChange, setMarkerIsChange] = useState(false)
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
 
     try {
-      const { token } = await signIn(formData)
+      formValidation['save'](formData, user.coins)
 
-      const queryString = new URLSearchParams({
-        token,
-        redirect: '/',
-      })
+      await createSave(formData, token)
 
       toast.success('Seja bem-vindo!')
 
-      router.push(`/auth/cookies/token?${queryString}`)
+      closeModalForm()
     } catch (error: any) {
-      console.log(error)
-      toast.error('Email ou senha inválidos!')
+      toast.error(error.message)
     }
   }
 
-  function handleInputOnChange(e: ChangeEvent<HTMLInputElement>) {
+  function handleInputOnChange(
+    e: ChangeEvent<HTMLInputElement>,
+    key: string = '',
+  ) {
+    if (isAddressAttribute(e.target.name))
+      return setFormData({
+        ...formData,
+        address: {
+          ...formData.address,
+          [e.target.name]: key ? masks[key](e.target.value) : e.target.value,
+        },
+      })
+
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   function handleSelectChange(cost: number, categoryId: number) {
     setFormData({ ...formData, cost, categoryId })
+  }
+
+  async function handleMapAddressChange(currentLocation: LocationCoordinates) {
+    setMarkerIsChange(true)
+
+    try {
+      const address = await getAddressByCoordinates(currentLocation)
+
+      setFormData({ ...formData, address: { ...formData.address, ...address } })
+    } catch (error) {
+      toast.error('Não foi possivel obter o endereaço')
+    } finally {
+      setMarkerIsChange(false)
+    }
   }
 
   return (
@@ -64,7 +108,7 @@ export default function TroubleForm({
             Vamos te ajudar!
           </h3>
           <div className="flex items-center gap-1 text-2xl font-bold text-alternative">
-            <BsCoin /> 10
+            <BsCoin /> {user.coins}
           </div>
         </div>
         <Input
@@ -77,9 +121,55 @@ export default function TroubleForm({
         />
         <Select handleSelectChange={handleSelectChange} />
 
-        {showLocationMap ? <Map/>:  <Button type="button" onClick={() => setShowLocationMap(true)}>Mostrar localização atual</Button>}
+        {showLocationMap ? (
+          <div className="flex w-full flex-col gap-2">
+            <h3 className="text-sm font-bold text-emphasis">
+              Você está por onde?
+            </h3>
+            <Map
+              handleMapAddressChange={handleMapAddressChange}
+              disabled={markerIsChange}
+            />
+            <Input
+              placeholder={`Digite o nome da rua`}
+              name={'street'}
+              label={'Rua'}
+              onChange={(e) => handleInputOnChange(e)}
+              value={formData.address.street}
+              disabled={markerIsChange}
+              required
+            />
+            <div className="grid grid-cols-2 gap-x-1">
+              <Input
+                placeholder={`Digite o numero`}
+                name={'number'}
+                label={'Número'}
+                onChange={(e) => handleInputOnChange(e, 'number')}
+                value={formData.address.number}
+                disabled={markerIsChange}
+                required
+              />
+              <Input
+                placeholder={`Digite o complemento`}
+                name={'complement'}
+                label={'Complemento'}
+                onChange={(e) => handleInputOnChange(e)}
+                value={formData.address.complement}
+                disabled={markerIsChange}
+              />
+            </div>
+          </div>
+        ) : (
+          <Button type="button" onClick={() => setShowLocationMap(true)}>
+            Mostrar localização atual
+          </Button>
+        )}
         <Button>Chamar salve!</Button>
       </form>
     </div>
   )
+}
+
+function isAddressAttribute(key: string) {
+  return key === 'complement' || key === 'street' || key === 'number'
 }

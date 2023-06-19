@@ -44,6 +44,7 @@ export function NormalInput({
   onChange,
   value,
   error,
+  disabled,
   required,
 }: InputProps) {
   return (
@@ -61,6 +62,7 @@ export function NormalInput({
         }`}
         onChange={onChange}
         value={value}
+        disabled={disabled}
         required={required}
       />
       {error?.[name] && (

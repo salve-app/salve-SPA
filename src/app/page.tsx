@@ -1,14 +1,17 @@
 import NavBar from '@/components/Navbar'
 import Dashboard from '@/components/home/Dashboard'
-import useToken from '@/lib/hooks/useToken'
 import useUser from '@/lib/hooks/useUser'
 import { getSaveCategories } from '@/lib/services/saveApi'
 import { redirect } from 'next/navigation'
 
 export default async function Home() {
-  // const user = useUser()
+  const user = useUser()
 
-  // if (!user) redirect('/sign-in')
+  if (!user) redirect('/sign-in')
+
+  if (!user.hasProfile) redirect('/sign-up/profile')
+
+  if (!user.hasAddress) redirect('/sign-up/address')
 
   return (
     <main className="flex min-h-screen flex-col justify-between bg-main">
