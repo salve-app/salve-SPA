@@ -29,7 +29,10 @@ export default function RootLayout({
   return (
     <ServerThemeProvider>
       <html lang="pt">
-        <body className={`${openSans.variable} ${oswald.variable} font-sans`}>
+        <body
+          className={`${openSans.variable} ${oswald.variable} font-sans`}
+          suppressHydrationWarning={true}
+        >
           <Providers>{children}</Providers>
         </body>
       </html>

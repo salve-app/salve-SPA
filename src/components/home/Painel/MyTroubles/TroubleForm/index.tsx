@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import { BsCoin } from 'react-icons/bs'
 import Select from './Select'
 import Map from './Map'
-import { AddressForm, SaveForm } from '@/lib/utils/protocols/inputs'
+import { SaveForm } from '@/lib/utils/protocols/inputs'
 import masks from '@/lib/utils/masks'
 import getAddressByCoordinates from '@/lib/utils/geolocation/getAddressByCoordinates'
 import { LocationCoordinates } from '@/lib/utils/protocols/geolocation'
@@ -14,13 +14,14 @@ import decode from 'jwt-decode'
 import { UserJwtPayload } from '@/lib/utils/protocols/resources'
 import formValidation from '@/lib/utils/validations/formValidation'
 import { createSave } from '@/lib/services/saveApi'
+import PlaceholderMap from './PlaceholderMap'
 
 export default function TroubleForm({
   closeModalForm,
 }: {
   closeModalForm: () => void
 }) {
-  const token = getCookie('token')?.toString()
+  const token = getCookie('token')?.toString() || ''
 
   const user = decode(token) as UserJwtPayload
 
@@ -36,6 +37,8 @@ export default function TroubleForm({
       state: '',
       complement: '',
       cep: '',
+      latitude: 0,
+      longitude: 0,
     },
   })
 
@@ -51,7 +54,7 @@ export default function TroubleForm({
 
       await createSave(formData, token)
 
-      toast.success('Seja bem-vindo!')
+      toast.success('Salve cadastrado com sucesso!')
 
       closeModalForm()
     } catch (error: any) {
@@ -104,11 +107,11 @@ export default function TroubleForm({
         className="relative z-10 flex w-[min(100%,_520px)] flex-col gap-5 rounded-2xl bg-main px-4 pb-4 pt-5"
       >
         <div className="flex w-full items-center justify-between">
-          <h3 className="font-alt text-3xl font-bold text-alternative">
-            Vamos te ajudar!
+          <h3 className="font-alt text-4xl font-bold text-alternative">
+            Chamando um salve
           </h3>
-          <div className="flex items-center gap-1 text-2xl font-bold text-alternative">
-            <BsCoin /> {user.coins}
+          <div className="flex items-center gap-1 text-4xl font-bold text-alternative">
+            <BsCoin /> {user.coins.toFixed(2).replace('.', ',')}
           </div>
         </div>
         <Input
@@ -160,9 +163,7 @@ export default function TroubleForm({
             </div>
           </div>
         ) : (
-          <Button type="button" onClick={() => setShowLocationMap(true)}>
-            Mostrar localização atual
-          </Button>
+          <PlaceholderMap onClick={() => setShowLocationMap(true)}/>
         )}
         <Button>Chamar salve!</Button>
       </form>

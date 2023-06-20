@@ -22,6 +22,8 @@ export interface AddressForm {
   city: string
   state: string
   nickname?: string
+  latitude: number
+  longitude: number
 }
 
 export interface SaveForm {

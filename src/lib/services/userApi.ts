@@ -45,4 +45,6 @@ interface AddressData {
   city: string
   state: string
   nickname?: string
+  latitude: number
+  longitude: number
 }

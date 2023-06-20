@@ -47,7 +47,7 @@ export default function Map({ handleMapAddressChange, disabled }: MapProps) {
   return (
     <div className="relative">
       <GoogleMap
-        zoom={16}
+        zoom={15}
         center={coords.position}
         mapContainerClassName="w-full h-80 rounded-lg"
       >

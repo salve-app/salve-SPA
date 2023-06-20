@@ -11,6 +11,7 @@ import masks from '@/lib/utils/masks'
 import { getCep } from '@/lib/services/cepApi'
 import { SelectInput } from './Select'
 import { createAddress } from '@/lib/services/userApi'
+import { getLatitudeAndLogitudeByAddress } from '@/lib/services/geolocationApi'
 
 export default function Form({ token }: { token: string }) {
   const router = useRouter()
@@ -33,7 +34,13 @@ export default function Form({ token }: { token: string }) {
     try {
       const validatedData = formValidation['address'](formData)
 
-      const { token: newToken } = await createAddress(validatedData, token)
+      const { lat: latitude, lng: longitude } =
+        await getLatitudeAndLogitudeByAddress(validatedData)
+
+      const { token: newToken } = await createAddress(
+        { ...validatedData, latitude, longitude },
+        token,
+      )
 
       const queryString = new URLSearchParams({
         token: newToken,
