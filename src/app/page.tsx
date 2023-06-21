@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation'
 
 export default async function Home() {
   const user = useUser()
-
+  
   if (!user) redirect('/sign-in')
 
   if (!user.hasProfile) redirect('/sign-up/profile')

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { MdMenu } from 'react-icons/md'
+import { MdMenu } from '@react-icons/all-files/md/MdMenu'
 import Menu from './Menu'
 
 export default function NavBar() {

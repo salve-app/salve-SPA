@@ -29,6 +29,9 @@ export default function RootLayout({
   return (
     <ServerThemeProvider>
       <html lang="pt">
+        <head>
+          <link rel="icon" type="image/x-icon" href="/images/icon.svg" />
+        </head>
         <body
           className={`${openSans.variable} ${oswald.variable} font-sans`}
           suppressHydrationWarning={true}

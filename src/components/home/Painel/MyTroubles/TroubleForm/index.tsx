@@ -2,7 +2,7 @@ import Button from '@/components/Button'
 import { NormalInput as Input } from '@/components/Input'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { toast } from 'react-toastify'
-import { BsCoin } from 'react-icons/bs'
+import { ImCoinDollar } from '@react-icons/all-files/im/ImCoinDollar'
 import Select from './Select'
 import Map from './Map'
 import { SaveForm } from '@/lib/utils/protocols/inputs'
@@ -41,7 +41,7 @@ export default function TroubleForm({
       longitude: 0,
     },
   })
-
+  
   const [showLocationMap, setShowLocationMap] = useState(false)
 
   const [markerIsChange, setMarkerIsChange] = useState(false)
@@ -111,7 +111,7 @@ export default function TroubleForm({
             Chamando um salve
           </h3>
           <div className="flex items-center gap-1 text-4xl font-bold text-alternative">
-            <BsCoin /> {user.coins.toFixed(2).replace('.', ',')}
+            <ImCoinDollar /> {user.coins.toFixed(2).replace('.', ',')}
           </div>
         </div>
         <Input
@@ -163,7 +163,7 @@ export default function TroubleForm({
             </div>
           </div>
         ) : (
-          <PlaceholderMap onClick={() => setShowLocationMap(true)}/>
+          <PlaceholderMap onClick={() => setShowLocationMap(true)} />
         )}
         <Button>Chamar salve!</Button>
       </form>
