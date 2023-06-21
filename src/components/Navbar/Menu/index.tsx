@@ -6,13 +6,11 @@ export default function Menu({
   active: boolean
 }) {
   return (
-    <div
-      className={`${active ? 'z-10' : '-z-10'} fixed left-0 top-0 flex w-full`}
-    >
+    <div className={`fixed left-0 top-0 z-10 flex w-full `}>
       <nav
-        className={`${
-          active ? 'w-[min(100%,_440px)]' : 'w-0'
-        } h-screen bg-white transition-all duration-300`}
+        className={`absolute z-10 ${
+          active ? 'left-0' : '-left-full'
+        } top-0  h-screen w-[min(100%,_440px)] bg-white transition-all duration-500`}
       ></nav>
       {active && (
         <div

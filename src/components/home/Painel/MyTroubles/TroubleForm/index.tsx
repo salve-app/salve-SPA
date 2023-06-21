@@ -41,7 +41,7 @@ export default function TroubleForm({
       longitude: 0,
     },
   })
-  
+
   const [showLocationMap, setShowLocationMap] = useState(false)
 
   const [markerIsChange, setMarkerIsChange] = useState(false)
@@ -56,7 +56,7 @@ export default function TroubleForm({
 
       toast.success('Salve cadastrado com sucesso!')
 
-      closeModalForm()
+      closeModalForm('submitted')
     } catch (error: any) {
       toast.error(error.message)
     }

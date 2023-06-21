@@ -8,7 +8,9 @@ export default function TroubleCard({
 }: PropsWithChildren<TroubleProps>) {
   return (
     <TroubleLayout>
-      <div className="relative flex h-full w-full flex-col items-start justify-between rounded-lg p-5">
+      <div
+        className="relative flex h-full w-full flex-col items-start justify-between rounded-lg p-5"
+      >
         <h3 className="font-sans text-2xl font-bold text-emphasis">
           {save.description}
         </h3>
@@ -92,4 +94,5 @@ function getCategoryTextColor(category: string) {
 
 interface TroubleProps {
   save: Save
+  ref?: any
 }

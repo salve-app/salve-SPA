@@ -2,7 +2,7 @@ import Troubles from '../Troubles'
 import { GiHealthNormal } from '@react-icons/all-files/gi/GiHealthNormal'
 import { GiSpiderMask } from '@react-icons/all-files/gi/GiSpiderMask'
 import AddTroubleButton from '../Troubles/AddTroubleButton'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import TroubleForm from './TroubleForm'
 import { getCookie } from 'cookies-next'
 import { getOfferingSaves, getRequestedSaves } from '@/lib/services/saveApi'
@@ -15,7 +15,21 @@ export default function MyTroubles() {
 
   const [saves, setSaves] = useState<SaveFetchData>()
 
-  const toggleModalForm = () => setShowModalForm(!showModalForm)
+  const [submitted, setSubmitted] = useState(false)
+
+  const troubleRef = useRef(null)
+
+  const toggleModalForm = (key: string = '') => {
+    if (key === 'submitted') {
+      setSubmitted(!submitted)
+      troubleRef.current.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      })
+    }
+
+    setShowModalForm(!showModalForm)
+  }
 
   useEffect(() => {
     const fetchMySaves = async () => {
@@ -35,12 +49,12 @@ export default function MyTroubles() {
     }
 
     fetchMySaves()
-  }, [])
+  }, [submitted])
 
   if (!saves) return null
 
   return (
-    <div className="grid grid-cols-2 h-[calc(100%-40px)] gap-x-4">
+    <div className="grid h-[calc(100%-40px)] grid-cols-2 gap-x-4">
       <Troubles
         title={
           <>
@@ -48,6 +62,7 @@ export default function MyTroubles() {
           </>
         }
         saves={saves.requested}
+        troubleRef={troubleRef}
       >
         <AddTroubleButton onClick={toggleModalForm} />
       </Troubles>
@@ -58,7 +73,15 @@ export default function MyTroubles() {
           </>
         }
         saves={saves.offering}
-      ></Troubles>
+      >
+        {!saves.offering.length && (
+          <div className="flex h-[550px] items-center justify-center opacity-40">
+            <p className="w-10/12 text-center text-2xl font-thin text-emphasis">
+              Nenhum perrengue está sendo atendtido por você no momento
+            </p>
+          </div>
+        )}
+      </Troubles>
       {showModalForm && <TroubleForm closeModalForm={toggleModalForm} />}
     </div>
   )
