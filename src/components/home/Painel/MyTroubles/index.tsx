@@ -7,6 +7,7 @@ import TroubleForm from './TroubleForm'
 import { getCookie } from 'cookies-next'
 import { getOfferingSaves, getRequestedSaves } from '@/lib/services/saveApi'
 import { SaveFetchData } from '@/lib/utils/protocols/saves'
+import { scrollToTop } from '@/lib/utils/helpers/scrollToTop'
 
 export default function MyTroubles() {
   const token = getCookie('token')?.toString() || ''
@@ -17,15 +18,12 @@ export default function MyTroubles() {
 
   const [submitted, setSubmitted] = useState(false)
 
-  const troubleRef = useRef(null)
+  const troubleRef = useRef<HTMLUListElement>(null)
 
   const toggleModalForm = (key: string = '') => {
     if (key === 'submitted') {
       setSubmitted(!submitted)
-      troubleRef.current.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      })
+      scrollToTop(troubleRef.current)
     }
 
     setShowModalForm(!showModalForm)

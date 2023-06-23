@@ -1,18 +1,18 @@
 import './globals.css'
-import { Open_Sans, Oswald } from 'next/font/google'
+import { Open_Sans, Oswald, Nunito, Raleway } from 'next/font/google'
 import { ServerThemeProvider } from '@wits/next-themes'
 import Providers from '@/contexts/Providers'
 
-const openSans = Open_Sans({
-  subsets: ['latin'],
-  weight: ['300', '400', '700'],
-  variable: '--font-open',
-})
-
-const oswald = Oswald({
+const nunito = Nunito({
   subsets: ['latin'],
   weight: '700',
-  variable: '--font-oswald',
+  variable: '--font-nunito',
+})
+
+const raleway = Raleway({
+  subsets: ['latin'],
+  weight: ['300', '400', '700'],
+  variable: '--font-raleway',
 })
 
 export const metadata = {
@@ -33,7 +33,7 @@ export default function RootLayout({
           <link rel="icon" type="image/x-icon" href="/images/icon.svg" />
         </head>
         <body
-          className={`${openSans.variable} ${oswald.variable} font-sans`}
+          className={`${nunito.variable} ${raleway.variable} font-sans`}
           suppressHydrationWarning={true}
         >
           <Providers>{children}</Providers>

@@ -27,7 +27,7 @@ export default function Map({ handleMapAddressChange, disabled }: MapProps) {
     )
   }, [])
 
-  const onMarkerDragEnd = async (e: google.maps.MapMouseEvent) => {
+  const changeMarkerPosition = async (e: google.maps.MapMouseEvent) => {
     const { latLng } = e
     const currentLocation = latLng
       ? { position: { lat: latLng.lat(), lng: latLng.lng() } }
@@ -50,12 +50,13 @@ export default function Map({ handleMapAddressChange, disabled }: MapProps) {
         zoom={15}
         center={coords.position}
         mapContainerClassName="w-full h-80 rounded-lg"
+        onClick={(e) => changeMarkerPosition(e)}
       >
         <Marker
           position={coords.position}
           title={'Arraste para o local correto, caso precise.'}
           icon={'/images/map-pin.png'}
-          onDragEnd={(e) => onMarkerDragEnd(e)}
+          onDragEnd={(e) => changeMarkerPosition(e)}
           draggable
         />
       </GoogleMap>

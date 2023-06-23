@@ -11,7 +11,7 @@ export default function MenuTabs({
         Meus perrengues
       </Tab>
       <Tab active={!active} handleTabClick={handleTabClick}>
-        Perrengues da galera
+        Perrengues locais
       </Tab>
     </div>
   )

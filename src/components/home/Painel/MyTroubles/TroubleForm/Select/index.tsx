@@ -3,7 +3,6 @@ import { SaveCategory } from '@/lib/utils/protocols/saves'
 import { getCookie } from 'cookies-next'
 import {
   Dispatch,
-  SelectHTMLAttributes,
   SetStateAction,
   useEffect,
   useState,

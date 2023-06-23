@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactNode } from 'react'
+import { PropsWithChildren, ReactNode, Ref } from 'react'
 import TroubleCard from './TroubleCard'
 import { Save } from '@/lib/utils/protocols/saves'
 
@@ -31,5 +31,5 @@ export default function Troubles({
 interface TroublesProps {
   title: ReactNode
   saves: Array<Save>
-  troubleRef: any
+  troubleRef?: Ref<HTMLUListElement>
 }

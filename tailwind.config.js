@@ -8,8 +8,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-open)'],
-        alt: ['var(--font-oswald)'],
+        sans: ['var(--font-raleway)'],
+        alt: ['var(--font-nunito)'],
       },
       screens: {
         '2xl': { max: '1535px' },
