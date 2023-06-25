@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, useState } from 'react'
 import TroubleLayout from '../TroubleLayout'
 import { Save } from '@/lib/utils/protocols/saves'
 import {
@@ -7,54 +7,72 @@ import {
   getRequesterName,
   getSaveStatus,
 } from '@/lib/utils/helpers/saves'
+import Chat from '../../Chat'
+import { HiOutlineChatAlt2 } from '@react-icons/all-files/hi/HiOutlineChatAlt2'
 
 export default function TroubleCard({
   children,
   save,
 }: PropsWithChildren<TroubleProps>) {
+  const [chatVisible, setChatVisible] = useState(false)
+
   const saveCategoriesColors = {
     Suave: 'text-green-500',
     'Da pra aguentar': 'text-yellow-500',
     Urgente: 'text-red-600',
   }
 
+  const toggleChatVisible = () => setChatVisible(!chatVisible)
+
   return (
-    <TroubleLayout>
-      <div className="relative flex h-full w-full flex-col items-start justify-between rounded-lg p-5">
-        <h3 className="font-alt text-2xl font-bold text-emphasis">
-          {save.description}
-        </h3>
-        <span
-          className={`absolute right-2 top-2 font-bold ${
-            saveCategoriesColors[save.category.name]
-          }`}
+    <>
+      <TroubleLayout>
+        <div
+          className="group relative flex h-full w-full cursor-pointer flex-col items-start justify-between rounded-lg p-5 hover:bg-zinc-200"
+          onClick={toggleChatVisible}
         >
-          {save.category.name}
-        </span>
-        <div className="flex w-full flex-wrap justify-between gap-2">
-          <span className="font-sans text-base text-emphasis">
-            <span className="font-bold">Solicitante: </span>
-            <span className="font-light">{getRequesterName(save)}</span>
+          <h3 className="font-alt text-2xl font-bold text-emphasis">
+            {save.description}
+          </h3>
+          <span
+            className={`absolute right-2 top-2 font-bold ${
+              saveCategoriesColors[save.category.name]
+            }`}
+          >
+            {save.category.name}
           </span>
-          <span className="font-sans text-base text-emphasis">
-            <span className="font-bold">Salvador: </span>
-            <span className="font-light">{getOfferingName(save)}</span>
-          </span>
+          <div className="flex w-full flex-wrap justify-between gap-2">
+            <span className="font-sans text-base text-emphasis">
+              <span className="font-bold">Solicitante: </span>
+              <span className="font-light">{getRequesterName(save)}</span>
+            </span>
+            <span className="font-sans text-base text-emphasis">
+              <span className="font-bold">Salvador: </span>
+              <span className="font-light">{getOfferingName(save)}</span>
+            </span>
+          </div>
+          <div className="w-full">
+            <span className="font-sans text-base text-emphasis">
+              <span className="font-bold">Endereço: </span>
+              <span className="font-light">{formatAddressToString(save)}</span>
+            </span>
+          </div>
+          <div className="flex w-full items-center justify-between">
+            <span className="font-sans text-base text-emphasis">
+              <span className="font-bold">Status: </span>
+              <span className="font-light">{getSaveStatus(save)}</span>
+            </span>
+            <span
+              className="cursor-pointer text-xl text-emphasis group-hover:text-dark-main"
+              onClick={toggleChatVisible}
+            >
+              <HiOutlineChatAlt2 />
+            </span>
+          </div>
         </div>
-        <div className="w-full">
-          <span className="font-sans text-base text-emphasis">
-            <span className="font-bold">Endereço: </span>
-            <span className="font-light">{formatAddressToString(save)}</span>
-          </span>
-        </div>
-        <div className="w-full">
-          <span className="font-sans text-base text-emphasis">
-            <span className="font-bold">Status: </span>
-            <span className="font-light">{getSaveStatus(save)}</span>
-          </span>
-        </div>
-      </div>
-    </TroubleLayout>
+      </TroubleLayout>
+      {chatVisible && <Chat save={save} closeChat={toggleChatVisible} />}
+    </>
   )
 }
 

@@ -6,3 +6,9 @@ export function scrollToTop(ref: HTMLElement | null) {
     })
   }
 }
+
+export function scrollToBottom(ref: HTMLElement | null) {
+  if (ref) {
+    ref.scrollIntoView({ behavior: 'auto' })
+  }
+}

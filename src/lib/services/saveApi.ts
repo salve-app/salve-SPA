@@ -45,3 +45,28 @@ export async function getSavesByCurrentLocation(
 
   return response.data
 }
+
+export async function getSaveChat(saveId: number, token: string) {
+  const response = await api.get(`/saves/${saveId}/chat`, authorization(token))
+
+  return response.data
+}
+
+export async function sendMessage(
+  saveId: number,
+  body: MessageInputData,
+  token: string,
+) {
+  const response = await api.post(
+    `/saves/${saveId}/chat`,
+    body,
+    authorization(token),
+  )
+
+  return response.data
+}
+
+interface MessageInputData {
+  chatId: number
+  message: string
+}

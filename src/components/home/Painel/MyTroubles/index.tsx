@@ -7,7 +7,7 @@ import TroubleForm from './TroubleForm'
 import { getCookie } from 'cookies-next'
 import { getOfferingSaves, getRequestedSaves } from '@/lib/services/saveApi'
 import { SaveFetchData } from '@/lib/utils/protocols/saves'
-import { scrollToTop } from '@/lib/utils/helpers/scrollToTop'
+import { scrollToTop } from '@/lib/utils/helpers/scrolling'
 
 export default function MyTroubles() {
   const token = getCookie('token')?.toString() || ''

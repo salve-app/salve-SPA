@@ -32,10 +32,10 @@ export interface Save {
     cost: number
   }
   requester?: {
-    fullName: true
+    fullName: string
   }
   provider?: {
-    fullName: true
+    fullName: string
   } | null
 }
 
