@@ -33,21 +33,24 @@ export default function Chat({
   async function handleAcceptProviderClick() {
     try {
       await acceptProvider(chatId, token)
-
+    
       toast.success('lagalaga')
     } catch (error) {
       toast.error('Não foi possível aceitar o salve!')
     }
   }
 
+  if(!chat) return <></>
+
   return (
     <>
       <Header
-        profileName={chat?.provider.fullName || ''}
+        profileName={chat.provider.fullName}
         isChatRequester={true}
-        handleAcceptProviderClick={handleAcceptProviderClick}
+        handleAcceptSaveClick={handleAcceptProviderClick}
+        isAccepted={chat.acceptedSave}
       />
-      <MessagesBox messages={chat?.messages || []} />
+      <MessagesBox messages={chat.messages} />
       <InputBox
         chatId={chatId}
         saveId={save.id}

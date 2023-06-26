@@ -18,6 +18,10 @@ export default function Chat({ closeChat, save, token }: ChatProps) {
       try {
         const { chat } = await getSaveChat(save.id, token)
 
+        setTimeout(async () => {
+          updateChatMessages()
+        }, 1000)
+
         setChat(chat)
       } catch (error) {
         console.log(error)
@@ -27,10 +31,6 @@ export default function Chat({ closeChat, save, token }: ChatProps) {
     fetchChatData()
   }, [submitted])
 
-  setInterval(async () => {
-    updateChatMessages()
-  }, 500)
-  
   return (
     <div className="fixed left-0 top-0 z-50 flex h-screen w-full items-center justify-center px-10 lg:px-0">
       <div

@@ -1,5 +1,6 @@
 export interface Chat {
   id: number
+  acceptedSave: boolean
   provider: {
     id: number
     fullName: string

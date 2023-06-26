@@ -1,5 +1,5 @@
 import { AiOutlineLike } from '@react-icons/all-files/ai/AiOutlineLike'
-import { toast } from 'react-toastify'
+import { AiOutlineClockCircle } from '@react-icons/all-files/ai/AiOutlineClockCircle'
 
 const saveCategoriesColors = {
   Suave: 'text-green-500',
@@ -12,7 +12,8 @@ export default function Header({
   saveDescription,
   saveCategory,
   isChatRequester,
-  handleAcceptProviderClick,
+  handleAcceptSaveClick,
+  isAccepted,
 }: ChatHeaderProps) {
   return (
     <header className="flex items-center justify-between border-b px-6 py-3">
@@ -24,12 +25,15 @@ export default function Header({
         <span className="font-alt text-xl text-emphasis">{profileName}</span>
         {isChatRequester && (
           <button
-            onClick={() => handleAcceptProviderClick()}
-            className="flex cursor-pointer items-center gap-2 rounded-3xl bg-emphasis px-4 py-2 font-alt font-bold text-alternative hover:opacity-80"
+            onClick={() => handleAcceptSaveClick()}
+            className={`flex items-center gap-2 rounded-3xl bg-emphasis px-4 py-2 font-alt font-bold text-alternative ${
+              isAccepted ? 'opacity-50' : 'cursor-pointer hover:opacity-80'
+            }`}
+            disabled={isAccepted}
           >
-            Aceitar salvador
+            {isAccepted ? 'Aguardando resposta' : 'Aceitar salvador'}
             <div className="rounded-full bg-alternative p-1 text-xl text-emphasis">
-              <AiOutlineLike />
+              {isAccepted ? <AiOutlineClockCircle /> : <AiOutlineLike />}
             </div>
           </button>
         )}
@@ -50,7 +54,8 @@ export default function Header({
 
 interface ChatHeaderProps {
   profileName: string
-  handleAcceptProviderClick: () => void
+  handleAcceptSaveClick: () => void
+  isAccepted: boolean
   saveDescription?: string
   saveCategory?: string
   isChatRequester?: boolean

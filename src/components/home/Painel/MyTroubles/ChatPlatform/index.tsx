@@ -34,6 +34,11 @@ export default function ChatPlatform({
         if (!currentChatId) setCurrentChatId(chatList[0]?.id || currentChatId)
 
         setChatList(chatList)
+
+        setTimeout(async () => {
+          updateChatMessages()
+        }, 1000)
+
       } catch (error) {
         console.log(error)
       }
@@ -41,10 +46,6 @@ export default function ChatPlatform({
 
     fetchChatList()
   }, [submitted])
-
-  setInterval(async () => {
-    updateChatMessages()
-  }, 500)
 
   return (
     <div className="fixed left-0 top-0 z-50 flex h-screen w-full items-center justify-center px-10 lg:px-0">
