@@ -1,14 +1,12 @@
 import { getSaveChat } from '@/lib/services/saveApi'
 import { Save } from '@/lib/utils/protocols/saves'
-import { getCookie } from 'cookies-next'
 import { useEffect, useRef, useState } from 'react'
 import Header from './Header'
 import MessagesBox from './MessagesBox'
 import InputBox from './InputBox'
 import { Chat } from '@/lib/utils/protocols/chat'
 
-export default function Chat({ closeChat, save }: ChatProps) {
-  const token = getCookie('token')?.toString() || ''
+export default function Chat({ closeChat, save, token }: ChatProps) {
 
   const [chat, setChat] = useState<Chat>()
 
@@ -57,4 +55,5 @@ export default function Chat({ closeChat, save }: ChatProps) {
 interface ChatProps {
   closeChat: () => void
   save: Save
+  token: string
 }

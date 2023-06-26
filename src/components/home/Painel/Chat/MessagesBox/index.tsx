@@ -5,9 +5,7 @@ import Message from './Message'
 import { RefObject } from 'react'
 import { Message as singleMessage } from '@/lib/utils/protocols/chat'
 
-export default function MessagesBox({
-  messages,
-}: MessagesProps) {
+export default function MessagesBox({ messages }: MessagesProps) {
   const token = getCookie('token')?.toString() || ''
 
   const { profileId } = decode(token) as UserJwtPayload
@@ -15,9 +13,7 @@ export default function MessagesBox({
   const lastMessageIndex = messages.length - 1
 
   return (
-    <main
-      className="scrollbar flex flex-1 flex-col gap-2 overflow-auto px-6 py-1"
-    >
+    <main className="scrollbar flex flex-1 flex-col gap-2 overflow-auto px-6 py-1">
       {!messages.length ? (
         <p className="flex h-full w-full items-center justify-center text-xl font-thin text-emphasis opacity-40">
           Inicie uma conversa agora mesmo :)
@@ -29,7 +25,7 @@ export default function MessagesBox({
             message={message}
             isCurrentUser={profileId === ownerId}
             createdAt={createdAt}
-            lastMessage = {lastMessageIndex === index}
+            lastMessage={lastMessageIndex === index}
           />
         ))
       )}

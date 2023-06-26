@@ -9,12 +9,20 @@ import {
 } from '@/lib/utils/helpers/saves'
 import Chat from '../../Chat'
 import { HiOutlineChatAlt2 } from '@react-icons/all-files/hi/HiOutlineChatAlt2'
+import { getCookie } from 'cookies-next'
+import decode from 'jwt-decode'
+import { UserJwtPayload } from '@/lib/utils/protocols/resources'
+import ChatPlatform from '../../MyTroubles/ChatPlatform'
 
 export default function TroubleCard({
   children,
   save,
 }: PropsWithChildren<TroubleProps>) {
   const [chatVisible, setChatVisible] = useState(false)
+
+  const token = getCookie('token')?.toString() || ''
+
+  const { profileId } = decode(token) as UserJwtPayload
 
   const saveCategoriesColors = {
     Suave: 'text-green-500',
@@ -71,7 +79,12 @@ export default function TroubleCard({
           </div>
         </div>
       </TroubleLayout>
-      {chatVisible && <Chat save={save} closeChat={toggleChatVisible} />}
+      {chatVisible && save.requester.id !== profileId && (
+        <Chat save={save} closeChat={toggleChatVisible} token={token} />
+      )}
+      {chatVisible && save.requester.id === profileId && (
+        <ChatPlatform save={save} closeChat={toggleChatVisible} token={token} />
+      )}
     </>
   )
 }

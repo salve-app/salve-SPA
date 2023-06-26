@@ -31,10 +31,12 @@ export interface Save {
     name: Categories
     cost: number
   }
-  requester?: {
+  requester: {
+    id: number
     fullName: string
   }
-  provider?: {
+  provider: {
+    id: number
     fullName: string
   } | null
 }

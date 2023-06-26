@@ -5,9 +5,9 @@ import AddTroubleButton from '../Troubles/AddTroubleButton'
 import { useEffect, useRef, useState } from 'react'
 import TroubleForm from './TroubleForm'
 import { getCookie } from 'cookies-next'
-import { getOfferingSaves, getRequestedSaves } from '@/lib/services/saveApi'
 import { SaveFetchData } from '@/lib/utils/protocols/saves'
 import { scrollToTop } from '@/lib/utils/helpers/scrolling'
+import { getMySaves } from '@/lib/services/saveApi'
 
 export default function MyTroubles() {
   const token = getCookie('token')?.toString() || ''
@@ -32,14 +32,12 @@ export default function MyTroubles() {
   useEffect(() => {
     const fetchMySaves = async () => {
       try {
-        const [requested, offering] = await Promise.all([
-          getRequestedSaves(token),
-          getOfferingSaves(token),
-        ])
-
+        const { mySaves } = await getMySaves(token)
+        
+        const { requested, offering } = mySaves
         setSaves({
-          requested: requested.requestedSaves,
-          offering: offering.offeringSaves,
+          requested,
+          offering,
         })
       } catch (error) {
         console.log(error)
