@@ -1,13 +1,12 @@
 import { getSaveChat } from '@/lib/services/saveApi'
 import { Save } from '@/lib/utils/protocols/saves'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Header from './Header'
 import MessagesBox from './MessagesBox'
 import InputBox from './InputBox'
 import { Chat } from '@/lib/utils/protocols/chat'
 
 export default function Chat({ closeChat, save, token }: ChatProps) {
-
   const [chat, setChat] = useState<Chat>()
 
   const [submitted, setSubmitted] = useState(false)
@@ -28,6 +27,10 @@ export default function Chat({ closeChat, save, token }: ChatProps) {
     fetchChatData()
   }, [submitted])
 
+  setInterval(async () => {
+    updateChatMessages()
+  }, 500)
+  
   return (
     <div className="fixed left-0 top-0 z-50 flex h-screen w-full items-center justify-center px-10 lg:px-0">
       <div
@@ -40,7 +43,7 @@ export default function Chat({ closeChat, save, token }: ChatProps) {
           saveCategory={save.category.name}
           saveDescription={save.description}
         />
-        <MessagesBox messages={chat?.messages || []}/>
+        <MessagesBox messages={chat?.messages || []} />
         <InputBox
           chatId={chat?.id || 0}
           saveId={save.id}

@@ -33,7 +33,7 @@ export default function MyTroubles() {
     const fetchMySaves = async () => {
       try {
         const { mySaves } = await getMySaves(token)
-        
+
         const { requested, offering } = mySaves
         setSaves({
           requested,
@@ -60,7 +60,7 @@ export default function MyTroubles() {
         saves={saves.requested}
         troubleRef={troubleRef}
       >
-        <AddTroubleButton onClick={toggleModalForm} />
+        <AddTroubleButton onClick={() => toggleModalForm()} />
       </Troubles>
       <Troubles
         title={

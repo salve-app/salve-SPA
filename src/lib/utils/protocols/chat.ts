@@ -1,5 +1,9 @@
 export interface Chat {
   id: number
+  provider: {
+    id: number
+    fullName: string
+  }
   messages: Array<Message>
 }
 export interface ChatListItem {

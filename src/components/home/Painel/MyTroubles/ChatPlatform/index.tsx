@@ -2,7 +2,8 @@ import { Save } from '@/lib/utils/protocols/saves'
 import { useEffect, useState } from 'react'
 import { getSaveChatList } from '@/lib/services/saveApi'
 import { ChatListItem } from '@/lib/utils/protocols/chat'
-import ChatList from './ChatList'
+import Chat from './Chat'
+import ChatListCard from './Chat/ChatListCard'
 
 const saveCategoriesColors = {
   Suave: 'text-green-500',
@@ -17,10 +18,20 @@ export default function ChatPlatform({
 }: ChatPlatformProps) {
   const [chatList, setChatList] = useState<Array<ChatListItem>>([])
 
+  const [currentChatId, setCurrentChatId] = useState(0)
+
+  const updateChatMessages = () => setSubmitted(!submitted)
+
+  const [submitted, setSubmitted] = useState(false)
+
+  const changeActiveChat = (id: number) => setCurrentChatId(id)
+
   useEffect(() => {
     async function fetchChatList() {
       try {
         const { chatList } = await getSaveChatList(save.id, token)
+
+        if (!currentChatId) setCurrentChatId(chatList[0]?.id || currentChatId)
 
         setChatList(chatList)
       } catch (error) {
@@ -29,7 +40,11 @@ export default function ChatPlatform({
     }
 
     fetchChatList()
-  }, [])
+  }, [submitted])
+
+  setInterval(async () => {
+    updateChatMessages()
+  }, 500)
 
   return (
     <div className="fixed left-0 top-0 z-50 flex h-screen w-full items-center justify-center px-10 lg:px-0">
@@ -47,9 +62,28 @@ export default function ChatPlatform({
               {save.category.name}
             </p>
           </div>
-          <ChatList chatList={chatList} />
+          <ul className="scrollbar h-5/6 overflow-auto">
+            {chatList.map((chat, index) => (
+              <ChatListCard
+                key={chat.id}
+                chat={chat}
+                changeActiveChat={changeActiveChat}
+                isActive={currentChatId === chat.id}
+              />
+            ))}
+          </ul>
         </div>
-        <div className="">{/*onde vai entrar o chat hehe*/}</div>
+        <div className="flex h-[560px] flex-col justify-between">
+          {currentChatId && (
+            <Chat
+              chatId={currentChatId}
+              token={token}
+              save={save}
+              updateChatMessages={updateChatMessages}
+              submitted={submitted}
+            />
+          )}
+        </div>
       </div>
     </div>
   )

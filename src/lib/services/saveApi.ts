@@ -15,7 +15,7 @@ export async function createSave(save: SaveForm, token: string) {
   return response.data
 }
 
-export async function getMySaves(token: string){
+export async function getMySaves(token: string) {
   const response = await api.get('/saves/me/active', authorization(token))
 
   return response.data
@@ -49,11 +49,13 @@ export async function getSaveChat(saveId: number, token: string) {
 }
 
 export async function getSaveChatList(saveId: number, token: string) {
-  const response = await api.get(`/saves/${saveId}/chat/list`, authorization(token))
+  const response = await api.get(
+    `/saves/${saveId}/chat/list`,
+    authorization(token),
+  )
 
   return response.data
 }
-
 
 export async function sendMessage(
   saveId: number,

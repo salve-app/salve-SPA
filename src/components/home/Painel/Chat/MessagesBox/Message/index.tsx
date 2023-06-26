@@ -16,7 +16,9 @@ export default function Message({
   return (
     <div
       className={`relative w-[min(60%,_520px)] break-words bg-dark-main px-4 py-2 text-alternative ${
-        isCurrentUser ? 'self-end rounded-b-2xl rounded-s-2xl' : 'self-start'
+        isCurrentUser
+          ? 'self-end rounded-b-md rounded-s-md'
+          : 'self-start rounded-e-md rounded-bl-md'
       }`}
       ref={lastMessage ? lastMessageRef : undefined}
     >
