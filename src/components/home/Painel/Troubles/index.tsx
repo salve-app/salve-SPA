@@ -7,6 +7,7 @@ export default function Troubles({
   title,
   saves,
   troubleRef,
+  updateSaves,
 }: PropsWithChildren<TroublesProps>) {
   return (
     <div className="flex w-full flex-col items-center">
@@ -19,7 +20,7 @@ export default function Troubles({
           ref={troubleRef}
         >
           {saves.map((s, index) => (
-            <TroubleCard key={s.id} save={s} />
+            <TroubleCard key={s.id} save={s} updateSaves={updateSaves} />
           ))}
           {children}
         </ul>
@@ -32,4 +33,5 @@ interface TroublesProps {
   title: ReactNode
   saves: Array<Save>
   troubleRef?: Ref<HTMLUListElement>
+  updateSaves: () => void
 }

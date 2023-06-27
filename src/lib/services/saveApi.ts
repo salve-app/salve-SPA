@@ -71,6 +71,30 @@ export async function sendMessage(
   return response.data
 }
 
+export async function startSave(saveId: number, token: string) {
+  const response = await api.put(
+    `/saves/${saveId}/start`,
+    {},
+    authorization(token),
+  )
+
+  return response.data
+}
+
+export async function finishSave(
+  saveId: number,
+  rating: number,
+  token: string,
+) {
+  const response = await api.put(
+    `/saves/${saveId}/finish`,
+    { rating },
+    authorization(token),
+  )
+
+  return response.data
+}
+
 interface MessageInputData {
   chatId: number
   message: string

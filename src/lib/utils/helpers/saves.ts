@@ -1,11 +1,12 @@
 import { Save } from '../protocols/saves'
 
-export function getRequesterName(save: Save) {
-  return save.requester ? save.requester.fullName : 'Você'
+export function getRequesterName(save: Save, profileId: number) {
+  return save.requester.id === profileId ? 'Você' : save.requester.fullName
 }
 
-export function getOfferingName(save: Save) {
-  if (save.provider) return save.provider.fullName
+export function getOfferingName(save: Save, profileId: number) {
+  if (save.provider)
+    return save.provider.id === profileId ? 'Você' : save.provider.fullName
 
   return save.status === 'CREATED' ? 'Pendente' : 'Você'
 }

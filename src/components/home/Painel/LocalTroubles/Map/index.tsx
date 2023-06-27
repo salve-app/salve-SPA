@@ -5,8 +5,13 @@ import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api'
 import { useEffect, useState } from 'react'
 import Range from '../Range'
 import debounce from 'lodash/debounce'
+import { toast } from 'react-toastify'
 
-export default function Map({ handleMapAddressChange, nearbySaves }: MapProps) {
+export default function Map({
+  handleMapAddressChange,
+  nearbySaves,
+  submitted,
+}: MapProps) {
   const [coords, setCoords] = useState<LocationCoordinates>({
     position: { lat: 0, lng: 0 },
   })
@@ -25,24 +30,31 @@ export default function Map({ handleMapAddressChange, nearbySaves }: MapProps) {
   )
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      async (location) => {
-        const currentCoords = {
-          position: {
-            lat: location.coords.latitude,
-            lng: location.coords.longitude,
-          },
-        }
-        setCoords(currentCoords)
+    if (!coords.position.lat && !coords.position.lng) {
+      navigator.geolocation.getCurrentPosition(
+        async (location) => {
+          const currentCoords = {
+            position: {
+              lat: location.coords.latitude,
+              lng: location.coords.longitude,
+            },
+          }
+          setCoords(currentCoords)
 
-        handleMapAddressChange(currentCoords, activeRange)
-      },
-      (e) => console.log(e),
-      {
-        enableHighAccuracy: true,
-      },
-    )
-  }, [])
+          handleMapAddressChange(currentCoords, activeRange)
+        },
+        (e) =>
+          toast.info('Habilite a localização atual para aproveitar nosso app'),
+        {
+          enableHighAccuracy: true,
+        },
+      )
+    } else {
+      setTimeout(() => {
+        handleMapAddressChange(coords, activeRange)
+      }, 2000)
+    }
+  }, [submitted])
 
   const changeMarkerPosition = async (e: google.maps.MapMouseEvent) => {
     const { latLng } = e
@@ -99,4 +111,5 @@ interface MapProps {
     range: number,
   ) => void
   nearbySaves: Array<Save> | undefined
+  submitted: boolean
 }

@@ -16,13 +16,16 @@ export default function MyTroubles() {
 
   const [saves, setSaves] = useState<SaveFetchData>()
 
+  const troubleRef = useRef<HTMLUListElement>(null)
+
   const [submitted, setSubmitted] = useState(false)
 
-  const troubleRef = useRef<HTMLUListElement>(null)
+  const updateSaves = () => setSubmitted(!submitted)
 
   const toggleModalForm = (key: string = '') => {
     if (key === 'submitted') {
-      setSubmitted(!submitted)
+      updateSaves()
+
       scrollToTop(troubleRef.current)
     }
 
@@ -35,10 +38,16 @@ export default function MyTroubles() {
         const { mySaves } = await getMySaves(token)
 
         const { requested, offering } = mySaves
+
         setSaves({
           requested,
           offering,
         })
+
+        setTimeout(async () => {
+          updateSaves()
+        }, 2000)
+
       } catch (error) {
         console.log(error)
       }
@@ -58,6 +67,7 @@ export default function MyTroubles() {
           </>
         }
         saves={saves.requested}
+        updateSaves={updateSaves}
         troubleRef={troubleRef}
       >
         <AddTroubleButton onClick={() => toggleModalForm()} />
@@ -69,6 +79,7 @@ export default function MyTroubles() {
           </>
         }
         saves={saves.offering}
+        updateSaves={updateSaves}
       >
         {!saves.offering.length && (
           <div className="flex h-[550px] items-center justify-center opacity-40">

@@ -17,6 +17,7 @@ import ChatPlatform from '../../MyTroubles/ChatPlatform'
 export default function TroubleCard({
   children,
   save,
+  updateSaves,
 }: PropsWithChildren<TroubleProps>) {
   const [chatVisible, setChatVisible] = useState(false)
 
@@ -52,11 +53,11 @@ export default function TroubleCard({
           <div className="flex w-full flex-wrap justify-between gap-2">
             <span className="font-sans text-base text-emphasis">
               <span className="font-bold">Solicitante: </span>
-              <span className="font-light">{getRequesterName(save)}</span>
+              <span className="font-light">{getRequesterName(save, profileId)}</span>
             </span>
             <span className="font-sans text-base text-emphasis">
               <span className="font-bold">Salvador: </span>
-              <span className="font-light">{getOfferingName(save)}</span>
+              <span className="font-light">{getOfferingName(save, profileId)}</span>
             </span>
           </div>
           <div className="w-full">
@@ -80,10 +81,20 @@ export default function TroubleCard({
         </div>
       </TroubleLayout>
       {chatVisible && save.requester.id !== profileId && (
-        <Chat save={save} closeChat={toggleChatVisible} token={token} />
+        <Chat
+          save={save}
+          closeChat={toggleChatVisible}
+          token={token}
+          updateSaves={updateSaves}
+        />
       )}
       {chatVisible && save.requester.id === profileId && (
-        <ChatPlatform save={save} closeChat={toggleChatVisible} token={token} />
+        <ChatPlatform
+          save={save}
+          closeChat={toggleChatVisible}
+          token={token}
+          updateSaves={updateSaves}
+        />
       )}
     </>
   )
@@ -91,5 +102,6 @@ export default function TroubleCard({
 
 interface TroubleProps {
   save: Save
+  updateSaves: () => void
   ref?: any
 }

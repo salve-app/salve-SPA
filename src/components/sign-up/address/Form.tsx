@@ -51,7 +51,6 @@ export default function Form({ token }: { token: string }) {
 
       router.push(`/auth/cookies/token?${queryString}`)
     } catch (error: any) {
-      console.log(error)
       toast.error('Alguns dados estão incorretos')
       setFormErrors(error)
     }

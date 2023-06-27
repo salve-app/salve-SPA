@@ -94,4 +94,5 @@ interface ChatPlatformProps {
   closeChat: () => void
   save: Save
   token: string
+  updateSaves: () => void
 }

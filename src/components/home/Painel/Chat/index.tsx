@@ -1,12 +1,18 @@
-import { getSaveChat } from '@/lib/services/saveApi'
+import { getSaveChat, startSave } from '@/lib/services/saveApi'
 import { Save } from '@/lib/utils/protocols/saves'
 import { useEffect, useState } from 'react'
 import Header from './Header'
 import MessagesBox from './MessagesBox'
 import InputBox from './InputBox'
 import { Chat } from '@/lib/utils/protocols/chat'
+import { toast } from 'react-toastify'
 
-export default function Chat({ closeChat, save, token }: ChatProps) {
+export default function Chat({
+  closeChat,
+  save,
+  token,
+  updateSaves,
+}: ChatProps) {
   const [chat, setChat] = useState<Chat>()
 
   const [submitted, setSubmitted] = useState(false)
@@ -31,6 +37,20 @@ export default function Chat({ closeChat, save, token }: ChatProps) {
     fetchChatData()
   }, [submitted])
 
+  async function handleStartSaveClick() {
+    try {
+      await startSave(save.id, token)
+
+      updateSaves()
+
+      toast.success('lagalaga')
+    } catch (error) {
+      toast.error('Não foi possível aceitar o salve!')
+    }
+  }
+
+  if (!chat) return <></>
+
   return (
     <div className="fixed left-0 top-0 z-50 flex h-screen w-full items-center justify-center px-10 lg:px-0">
       <div
@@ -39,11 +59,15 @@ export default function Chat({ closeChat, save, token }: ChatProps) {
       ></div>
       <div className="relative z-10 flex h-[560px] w-[min(100%,_1200px)] flex-col justify-between rounded-2xl bg-white">
         <Header
-          profileName={save.requester?.fullName || ''}
+          profileName={save.requester.fullName}
           saveCategory={save.category.name}
           saveDescription={save.description}
+          isChatRequester={false}
+          handleAcceptSaveClick={handleStartSaveClick}
+          isAccepted={chat.acceptedSave}
+          saveStatus={save.status}
         />
-        <MessagesBox messages={chat?.messages || []} />
+        <MessagesBox messages={chat.messages} />
         <InputBox
           chatId={chat?.id || 0}
           saveId={save.id}
@@ -59,4 +83,5 @@ interface ChatProps {
   closeChat: () => void
   save: Save
   token: string
+  updateSaves: () => void
 }
