@@ -16,6 +16,13 @@
   --dark-main: theme('colors.blueberry.dark-main');
 }
 
+[data-theme='banana'] {
+  --main: theme('colors.banana.main');
+  --alternative: theme('colors.banana.alternative');
+  --emphasis: theme('colors.banana.emphasis');
+  --dark-main: theme('colors.banana.dark-main');
+}
+
 @layer utilities {
   .scrollbar::-webkit-scrollbar {
     width: 10px;

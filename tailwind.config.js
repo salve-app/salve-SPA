@@ -31,6 +31,12 @@ module.exports = {
           emphasis: '#043065',
           'dark-main': '#432c69',
         },
+        banana: {
+          main: '#ffc205',
+          alternative: '#fbf8e8',
+          emphasis: '#151100',
+          'dark-main': '#C99104',
+        },
         main: 'var(--main)',
         alternative: 'var(--alternative)',
         emphasis: 'var(--emphasis)',
