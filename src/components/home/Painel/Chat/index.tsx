@@ -24,9 +24,11 @@ export default function Chat({
       try {
         const { chat } = await getSaveChat(save.id, token)
 
-        setTimeout(async () => {
-          updateChatMessages()
-        }, 1000)
+        if (chat) {
+          setTimeout(async () => {
+            updateChatMessages()
+          }, 1000)
+        }
 
         setChat(chat)
       } catch (error) {
@@ -49,8 +51,6 @@ export default function Chat({
     }
   }
 
-  if (!chat) return <></>
-
   return (
     <div className="fixed left-0 top-0 z-50 flex h-screen w-full items-center justify-center px-10 lg:px-0">
       <div
@@ -64,10 +64,13 @@ export default function Chat({
           saveDescription={save.description}
           isChatRequester={false}
           handleAcceptSaveClick={handleStartSaveClick}
-          isAccepted={chat.acceptedSave}
+          isAccepted={chat ? chat.acceptedSave : false}
           saveStatus={save.status}
         />
-        <MessagesBox messages={chat.messages} />
+        <MessagesBox
+          messages={chat?.messages || []}
+          destinataryName={save.requester.fullName}
+        />
         <InputBox
           chatId={chat?.id || 0}
           saveId={save.id}

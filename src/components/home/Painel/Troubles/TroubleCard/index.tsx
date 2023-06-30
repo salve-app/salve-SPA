@@ -32,7 +32,7 @@ export default function TroubleCard({
   }
 
   const toggleChatVisible = () => setChatVisible(!chatVisible)
-
+  
   return (
     <>
       <TroubleLayout>
@@ -53,11 +53,15 @@ export default function TroubleCard({
           <div className="flex w-full flex-wrap justify-between gap-2">
             <span className="font-sans text-base text-emphasis">
               <span className="font-bold">Solicitante: </span>
-              <span className="font-light">{getRequesterName(save, profileId)}</span>
+              <span className="font-light">
+                {getRequesterName(save, profileId)}
+              </span>
             </span>
             <span className="font-sans text-base text-emphasis">
               <span className="font-bold">Salvador: </span>
-              <span className="font-light">{getOfferingName(save, profileId)}</span>
+              <span className="font-light">
+                {getOfferingName(save, profileId)}
+              </span>
             </span>
           </div>
           <div className="w-full">

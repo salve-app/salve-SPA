@@ -49,7 +49,6 @@ export default function Chat({
   }
 
   async function handleFinalizeSave(e: FormEvent) {
-    //update to complete here
     e.preventDefault()
 
     try {

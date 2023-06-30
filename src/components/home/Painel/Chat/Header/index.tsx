@@ -117,7 +117,7 @@ export default function Header({
 interface ChatHeaderProps {
   profileName: string
   handleAcceptSaveClick: () => void
-  handleFinalizeModal: () => void
+  handleFinalizeModal?: () => void
   saveStatus: string
   isAccepted: boolean
   saveDescription?: string

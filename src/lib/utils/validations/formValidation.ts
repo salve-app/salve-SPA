@@ -46,9 +46,10 @@ function validateAddressForm(address: AddressForm) {
 
 function validateSaveForm(save: SaveForm, currentCoins: number) {
 
+  if(!save.cost) throw new Error('Selecione o nível do perrengue!')
+  
   if(save.cost > currentCoins) throw new Error('Saldo insuficiente!')
 
-  if(!save.cost) throw new Error('Selecione o nível do perrengue!')
 
   return save;
 }
