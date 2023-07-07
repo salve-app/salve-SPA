@@ -57,20 +57,6 @@ export async function getSaveChatList(saveId: number, token: string) {
   return response.data
 }
 
-export async function sendMessage(
-  saveId: number,
-  body: MessageInputData,
-  token: string,
-) {
-  const response = await api.post(
-    `/saves/${saveId}/chat`,
-    body,
-    authorization(token),
-  )
-
-  return response.data
-}
-
 export async function startSave(saveId: number, token: string) {
   const response = await api.put(
     `/saves/${saveId}/start`,
@@ -96,6 +82,5 @@ export async function finishSave(
 }
 
 interface MessageInputData {
-  chatId: number
   message: string
 }

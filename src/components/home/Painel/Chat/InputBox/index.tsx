@@ -1,11 +1,11 @@
-import { sendMessage } from '@/lib/services/saveApi'
+import { sendMessage } from '@/lib/services/chatApi'
 import { IoMdSend } from '@react-icons/all-files/io/IoMdSend'
 import { FormEvent, useState } from 'react'
 import { toast } from 'react-toastify'
 
 export default function InputBox({
-  chatId,
   saveId,
+  chatId,
   token,
   updateChatMessages,
 }: InputBoxProps) {
@@ -15,12 +15,12 @@ export default function InputBox({
     e.preventDefault()
 
     const body = {
-      chatId,
+      saveId,
       message,
     }
 
     try {
-      await sendMessage(saveId, body, token)
+      await sendMessage(chatId, body, token)
 
       setMessage('')
       updateChatMessages()
@@ -36,6 +36,7 @@ export default function InputBox({
           type="text"
           className="scrollbar h-8 flex-1
           resize-none
+          bg-alternative
           font-bold
           text-emphasis
           outline-none
@@ -54,8 +55,8 @@ export default function InputBox({
 }
 
 interface InputBoxProps {
-  chatId: number
   saveId: number
+  chatId: number
   token: string
   updateChatMessages: () => void
 }

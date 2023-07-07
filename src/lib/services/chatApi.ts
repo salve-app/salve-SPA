@@ -18,3 +18,17 @@ export async function acceptProvider(chatId: number, token: string) {
 
   return response.data
 }
+
+export async function sendMessage(
+  chatId: number,
+  body: MessageInputData,
+  token: string,
+) {
+  const response = await api.post(
+    `/chats/${chatId}/message`,
+    body,
+    authorization(token),
+  )
+
+  return response.data
+}
