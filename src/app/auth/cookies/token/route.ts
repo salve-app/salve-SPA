@@ -1,18 +1,19 @@
-import { NextRequest, NextResponse } from 'next/server'
+import useCookies from '@/lib/hooks/useCookies'
+import { redirect } from 'next/navigation'
+import { NextRequest } from 'next/server'
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url)
+	const { searchParams } = new URL(request.url)
 
-  const token = searchParams.get('token')
-  const redirectPath = searchParams.get('redirect')
+	const { setCookie } = useCookies()
 
-  const redirectUrl = new URL(redirectPath ? redirectPath : '/', request.url)
+	const token = searchParams.get('token')
+	const redirectPath = searchParams.get('redirect')
 
-  const cookieExpiresInSeconds = 24 * 60 * 60
+	setCookie({
+		name: 'token',
+		value: token || '',
+	})
 
-  return NextResponse.redirect(redirectUrl, {
-    headers: {
-      'Set-Cookie': `token=${token}; Path=/; max-age=${cookieExpiresInSeconds};`,
-    },
-  })
+	return redirect(redirectPath || '/')
 }
